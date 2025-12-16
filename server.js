@@ -3,7 +3,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-
 const authRoutes = require("./routes/auth");
 const movieRoutes = require("./routes/movies");
 
@@ -13,17 +12,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/movies", movieRoutes);
-app.use("/auth", authRoutes);
+// Test route
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
 
+// Routes (✅ FIXED)
+app.use("/api/movies", movieRoutes);
+app.use("/api/auth", authRoutes);
 
 // MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error(err));
-
 
 // Server
 const PORT = process.env.PORT || 5000;
